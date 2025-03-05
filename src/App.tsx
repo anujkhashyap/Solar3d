@@ -14,16 +14,8 @@ function App() {
   const [savedConfigs, setSavedConfigs] = useState<SolarSystemConfig[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isFirebaseConfigured, setIsFirebaseConfigured] = useState(true);
 
   useEffect(() => {
-    // Check if Firebase is properly configured
-    const apiKey = import.meta.env.VITE_FIREBASE_API_KEY || '';
-    if (!apiKey || apiKey.includes('YOUR_')) {
-      setIsFirebaseConfigured(false);
-      return;
-    }
-
     // Load saved configurations
     const loadConfigs = async () => {
       try {
@@ -31,7 +23,6 @@ function App() {
         setSavedConfigs(configs);
       } catch (error) {
         console.error('Error loading configurations:', error);
-        setIsFirebaseConfigured(false);
       }
     };
 
@@ -43,11 +34,6 @@ function App() {
   };
 
   const handleSaveConfig = async (name: string) => {
-    if (!isFirebaseConfigured) {
-      alert('Firebase is not properly configured. Please update your Firebase config.');
-      return;
-    }
-
     setIsSaving(true);
     try {
       const config: Omit<SolarSystemConfig, 'id'> = {
@@ -120,15 +106,6 @@ function App() {
 
         {/* Controls Panel */}
         <div className="md:w-1/4 space-y-4">
-          {!isFirebaseConfigured && (
-            <div className="bg-red-800 p-4 rounded-lg mb-4">
-              <h3 className="font-bold">Firebase Not Configured</h3>
-              <p className="text-sm">
-                Please update the Firebase configuration in src/firebase/config.ts with your own Firebase project details to enable saving and loading configurations.
-              </p>
-            </div>
-          )}
-
           <PlanetControls
             planets={planets}
             onPlanetChange={handlePlanetChange}
