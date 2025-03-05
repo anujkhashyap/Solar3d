@@ -56,7 +56,7 @@ export const defaultPlanets: PlanetConfig[] = [
     speed: 1.31,
     orbitDistance: 25,
     color: '#F4A460',
-    texture: new URL('../assets/saturn.jpg', import.meta.url).href
+    texture: '/src/assets/jupiter.jpg'
   },
   {
     id: uuidv4(),
